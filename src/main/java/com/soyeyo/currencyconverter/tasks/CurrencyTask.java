@@ -2,7 +2,7 @@ package com.soyeyo.currencyconverter.tasks;
 
 import com.soyeyo.currencyconverter.models.Currency;
 import com.soyeyo.currencyconverter.models.CurrencyDTO;
-import com.soyeyo.currencyconverter.repositories.CurrencyRepository;
+import com.soyeyo.currencyconverter.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
