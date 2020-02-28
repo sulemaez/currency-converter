@@ -8,6 +8,7 @@ public class Currency {
 
     @Id
     private String name;
+
     private double valueInUsd;
 
     public Currency(){
