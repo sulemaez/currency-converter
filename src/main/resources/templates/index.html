@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+         <div class="container-fluid d-flex justify-content-center">
+            <div class="row d-flex justify-content-center">
+               <h3>Currency Converter</h3>
+            </div>
+         </div>
+      </nav>
+    
+      <div class="container-fluid mt-4 pt-4">
+          <div class="row d-flex justify-content-center">
+             <div class="col-md-5">
+                <div class="card w-100" style="width: 18rem;">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                           <label for="">FROM</label>
+                        </div>
+                        <div class="row d-flex justify-content-center">
+                           <div class="container col-md-6">
+                              <select class="form-control"  id="fromCurrency">
+
+                                </select>
+                           </div>
+                        </div>
+                        <div class="row d-flex justify-content-center mt-4">
+                            <label for="">TO</label>
+                         </div>
+                         <div class="row d-flex justify-content-center">
+                            <div class="container col-md-6">
+                               <select class="form-control" id="toCurrency">
+ 
+                                 </select>
+                            </div>
+                         </div>
+                         <div class="row d-flex justify-content-center mt-4 align-items-center">
+                            <label for="">Amount : </label>
+                            <div class="continer col-md-5">
+                               <input type="number" class="form-control" >
+                            </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-12">
+                                 <p id="amountError" class="text text-danger">OPPOPOP</p>
+                             </div>
+                         </div>
+
+                         <div id="resultBox" class="row d-flex justify-content-center mt-4 align-items-center" style="display: none !important;">
+                            <label for="">RESULT : </label>
+                            <div class="continer col-md-5">
+                               <h5 id="result"></h5>
+                            </div>
+                         </div>
+
+                         <div class="row d-flex justify-content-center mt-4 align-items-center">
+                              <button class="btn btn-primary" id="btn">
+                                 Convert
+                              </button>
+                         </div>
+                    </div>
+                  </div>
+             </div>
+          </div>
+      </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script>
+        let toCurrencyList = document.querySelector("#toCurrency")
+        let fromCurrencyList = document.querySelector("#fromCurrency")
+        let resultBox = document.querySelector("#resultBox")
+        let result = document.querySelector("#result")
+
+        window.onload = () => {
+            axios.get('/currencies')
+                .then((data)=>{
+                    let innerHTMLTO = '';
+                    let innerHTMLFROM = '';
+                    data.data.forEach((currency) => {
+                        innerHTMLTO += `<option class="to" value="${currency.name}">${currency.name}</option>`
+                        innerHTMLFROM += `<option class="from" value="${currency.name}">${currency.name}</option>`
+                    })
+
+                    toCurrencyList.innerHTML = innerHTMLTO
+                    fromCurrencyList.innerHTML = innerHTMLFROM
+                })
+        }
+
+        document.querySelector("#btn").onclick = (e) =>{
+            let amount = document.querySelector("#amountError").value
+
+            if(amount == undefined || amount == 0 || amount || ""){
+
+                return
+            }
+
+            let toCurrency = toCurrencyList.value
+            let fromCurrency = fromCurrencyList.value
+
+            axios.post('/convert',{
+                 'to' : toCurrency,
+                 'from' : fromCurrency,
+                 'value':amount
+                })
+                .then((data) => {
+                   data = data.data
+                   console.log(data)
+                })
+        }
+
+
+    </script>
+</body>
+</html>

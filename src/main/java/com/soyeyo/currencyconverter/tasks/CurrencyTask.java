@@ -21,11 +21,10 @@ public class CurrencyTask {
   @Scheduled( fixedRate = 5 * 60 * 1000 * 60)
   private void getRatesTask(){
       try{
-          System.out.println("STARTED");
+
           RestTemplate restTemplate = new RestTemplate();
           CurrencyDTO forObject = restTemplate.getForObject(apiKey,CurrencyDTO.class);
-          System.out.println("OPOPOP");
-          System.out.println(forObject.getRates().size());
+
           forObject.getRates().forEach((k,v) ->{
               Currency currency = new Currency(k,v);
               System.out.println(currency);
@@ -33,7 +32,6 @@ public class CurrencyTask {
           });
       }catch (Exception e){
           System.out.println(e.getMessage());
-          e.printStackTrace();
       }
   }
 
